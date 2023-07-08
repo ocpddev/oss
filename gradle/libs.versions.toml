@@ -1,0 +1,22 @@
+[versions]
+kotlin = "1.9.0"
+spring-cloud-gcp = "4.5.1"
+testcontainers = "1.18.3"
+
+[plugins]
+jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+dokka = { id = "org.jetbrains.dokka", version = "1.8.20" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+spring-boot = { id = "org.springframework.boot", version = "3.1.1" }
+spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.0" }
+
+[libraries]
+plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+slf4k = { module = "dev.ocpd.slf4k:slf4k", version = "0.2.0" }
+aws-sdk-bom = { module = "software.amazon.awssdk:bom", version = "2.20.100" }
+localstack-utils = { module = "cloud.localstack:localstack-utils", version = "0.2.23" }
+spring-cloud-gcp = { module = "com.google.cloud:spring-cloud-gcp-dependencies", version.ref = "spring-cloud-gcp" }
+testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+
+[bundles]
