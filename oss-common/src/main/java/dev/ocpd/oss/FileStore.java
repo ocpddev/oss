@@ -16,15 +16,6 @@ public interface FileStore {
      * Note: This method will return all file keys in the file store, which may be a very large number.
      * It must be used within a try-with-resources statement or similar control structure to ensure that the stream's underlying resources are promptly released.
      *
-     * <pre class="code">
-     *     {@literal @}Test
-     *     public void listAllFiles() {
-     *         try (Stream<String> stream = fileStore.list()) {
-     *             stream.forEach(System.out::println);
-     *          }
-     *     }
-     * </pre>
-     *
      * @param prefix The prefix of the file keys to be listed.
      * @return A stream of file keys.
      */
