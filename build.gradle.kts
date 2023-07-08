@@ -30,7 +30,6 @@ subprojects {
         plugin(plugins.kotlin.spring.get().pluginId)
         plugin(plugins.spring.boot.get().pluginId)
         plugin(plugins.spring.dependency.management.get().pluginId)
-        plugin("maven-publish")
         plugin<MavenPublishPlugin>()
         plugin<SigningPlugin>()
     }
