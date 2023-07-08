@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     alias(libs.plugins.jvm)
@@ -20,16 +21,19 @@ repositories {
 
 subprojects {
 
-     apply {
-         plugin(rootProject.project.libs.plugins.jvm.get().pluginId)
-         plugin(rootProject.project.libs.plugins.kapt.get().pluginId)
-         plugin(rootProject.project.libs.plugins.dokka.get().pluginId)
-         plugin(rootProject.project.libs.plugins.kotlin.spring.get().pluginId)
-         plugin(rootProject.project.libs.plugins.spring.boot.get().pluginId)
-         plugin(rootProject.project.libs.plugins.spring.dependency.management.get().pluginId)
-         plugin("maven-publish")
-         plugin("org.gradle.signing")
-     }
+    val plugins = rootProject.project.libs.plugins
+
+    apply {
+        plugin(plugins.jvm.get().pluginId)
+        plugin(plugins.kapt.get().pluginId)
+        plugin(plugins.dokka.get().pluginId)
+        plugin(plugins.kotlin.spring.get().pluginId)
+        plugin(plugins.spring.boot.get().pluginId)
+        plugin(plugins.spring.dependency.management.get().pluginId)
+        plugin("maven-publish")
+        plugin<MavenPublishPlugin>()
+        plugin<SigningPlugin>()
+    }
 
     group = rootProject.group
     version = rootProject.version
@@ -41,12 +45,17 @@ subprojects {
         withJavadocJar()
     }
 
-    tasks.named("bootJar") {
+    tasks.named<BootJar>("bootJar") {
         enabled = false
     }
 
     tasks.named<Jar>("javadocJar") {
         from(tasks.named("dokkaJavadoc"))
+        duplicatesStrategy = DuplicatesStrategy.WARN
+    }
+
+    tasks.named("dokkaJavadoc") {
+        dependsOn("kaptKotlin")
     }
 
     tasks.withType<KotlinCompile> {
