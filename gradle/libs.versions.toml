@@ -3,16 +3,13 @@ kotlin = "1.9.0"
 spring-cloud-gcp = "4.5.1"
 testcontainers = "1.18.3"
 
-[plugins]
-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-dokka = { id = "org.jetbrains.dokka", version = "1.8.20" }
-kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
-spring-boot = { id = "org.springframework.boot", version = "3.1.1" }
-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.0" }
-
 [libraries]
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+plugin-kotlin-allopen = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
+plugin-dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version = "1.8.20" }
+plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.1.1" }
+plugin-spring-dependency-management = { module = "io.spring.gradle:dependency-management-plugin", version = "1.1.0" }
+
 slf4k = { module = "dev.ocpd.slf4k:slf4k", version = "0.2.0" }
 aws-sdk-bom = { module = "software.amazon.awssdk:bom", version = "2.20.100" }
 localstack-utils = { module = "cloud.localstack:localstack-utils", version = "0.2.23" }
@@ -20,3 +17,4 @@ spring-cloud-gcp = { module = "com.google.cloud:spring-cloud-gcp-dependencies", 
 testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
 
 [bundles]
+plugins = [ "plugin-kotlin", "plugin-kotlin-allopen", "plugin-dokka", "plugin-spring-boot", "plugin-spring-dependency-management" ]

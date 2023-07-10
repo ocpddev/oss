@@ -1,3 +1,8 @@
+plugins {
+    id("conventions.module")
+    id("conventions.publishing")
+}
+
 dependencies {
     implementation(libs.slf4k)
 

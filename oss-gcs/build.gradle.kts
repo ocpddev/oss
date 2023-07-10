@@ -1,3 +1,8 @@
+plugins {
+    id("conventions.module")
+    id("conventions.publishing")
+}
+
 dependencyManagement {
     imports {
         mavenBom(libs.spring.cloud.gcp.get().toString())
