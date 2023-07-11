@@ -21,7 +21,7 @@ public abstract class FileStoreTest {
 
     static {
         try {
-            TEST_FILE_URL = new URL("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
+            TEST_FILE_URL = new URL("https://www.bing.com/msasignin/cobranding/logo");
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Invalid test file URL", e);
         }
