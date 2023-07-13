@@ -15,7 +15,7 @@ abstract class FileStoreTest {
 
     companion object {
         private const val TEST_FILE_KEY_PREFIX = "oss-test-images"
-        private const val TEST_FILE_KEY = "$TEST_FILE_KEY_PREFIX/googlelogo.png"
+        private const val TEST_FILE_KEY = "$TEST_FILE_KEY_PREFIX/binglogo.png"
         private val TEST_FILE_URL: URL = try {
             URL("https://www.bing.com/msasignin/cobranding/logo")
         } catch (e: MalformedURLException) {
@@ -33,7 +33,7 @@ abstract class FileStoreTest {
 
     @Test
     fun givenFile_whenUploadFileByPathAndList_thenSuccess() {
-        val tempFile = Files.createTempFile("googlelogo", ".png")
+        val tempFile = Files.createTempFile("binglogo", ".png")
 
         TEST_FILE_URL.openStream().use {
             Files.copy(it, tempFile, StandardCopyOption.REPLACE_EXISTING)
@@ -50,7 +50,7 @@ abstract class FileStoreTest {
 
     @Test
     fun givenFile_whenUploadFileAndDownloadToOutputStream_thenSuccess() {
-        val tempFile = Files.createTempFile("googlelogo", ".png")
+        val tempFile = Files.createTempFile("binglogo", ".png")
 
         TEST_FILE_URL.openStream().use {
             Files.copy(it, tempFile, StandardCopyOption.REPLACE_EXISTING)
@@ -111,7 +111,7 @@ abstract class FileStoreTest {
 
     @Test
     open fun givenFile_whenUploadAndAccessSignedUrl_thenSuccess() {
-        val tempFile = Files.createTempFile("googlelogo", ".png")
+        val tempFile = Files.createTempFile("binglogo", ".png")
 
         TEST_FILE_URL.openStream().use {
             Files.copy(it, tempFile, StandardCopyOption.REPLACE_EXISTING)
