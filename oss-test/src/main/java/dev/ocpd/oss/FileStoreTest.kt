@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.io.IOException
 import java.net.MalformedURLException
 import java.net.URL
 import java.nio.file.Files
@@ -33,7 +32,6 @@ abstract class FileStoreTest {
     }
 
     @Test
-    @Throws(IOException::class)
     fun givenFile_whenUploadFileByPathAndList_thenSuccess() {
         val tempFile = Files.createTempFile("googlelogo", ".png")
 
@@ -51,7 +49,6 @@ abstract class FileStoreTest {
     }
 
     @Test
-    @Throws(IOException::class)
     fun givenFile_whenUploadFileAndDownloadToOutputStream_thenSuccess() {
         val tempFile = Files.createTempFile("googlelogo", ".png")
 
@@ -71,7 +68,6 @@ abstract class FileStoreTest {
     }
 
     @Test
-    @Throws(IOException::class)
     fun givenFileUrl_whenUploadFileByUrlAndDownloadToBytes_thenSuccess() {
         TEST_FILE_URL.openStream().use {
             val bytes = it.readAllBytes()
@@ -103,7 +99,6 @@ abstract class FileStoreTest {
     }
 
     @Test
-    @Throws(IOException::class)
     fun givenFileContent_whenUploadAndCheckFileExist_thenTrue() {
         TEST_FILE_URL.openStream().use {
             val fileContent = it.readAllBytes()
@@ -115,7 +110,6 @@ abstract class FileStoreTest {
     }
 
     @Test
-    @Throws(IOException::class)
     open fun givenFile_whenUploadAndAccessSignedUrl_thenSuccess() {
         val tempFile = Files.createTempFile("googlelogo", ".png")
 
