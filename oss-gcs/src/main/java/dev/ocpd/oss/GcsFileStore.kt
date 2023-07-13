@@ -47,10 +47,10 @@ class GcsFileStore(
         log.debug("Uploaded file with key: $key")
     }
 
-    override fun upload(key: String, `is`: InputStream) {
+    override fun upload(key: String, ins: InputStream) {
         val blobInfo = BlobInfo.newBuilder(bucket, key).build()
         try {
-            val fileContent = ByteStreams.toByteArray(`is`)
+            val fileContent = ByteStreams.toByteArray(ins)
             storage.create(blobInfo, fileContent)
 
             log.debug("Upload file from input stream with key: $key")

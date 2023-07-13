@@ -124,7 +124,7 @@ abstract class FileStoreTest {
             fileStore.upload(TEST_FILE_KEY, tempFile)
             val signedUrl = fileStore.generateDownloadUrl(TEST_FILE_KEY)
             val os = ByteArrayOutputStream(tempFile.toFile().length().toInt())
-            os.use { signedUrl.openStream().use { `is` -> `is`.transferTo(os) } }
+            os.use { signedUrl.openStream().use { ins -> ins.transferTo(os) } }
 
             assertArrayEquals(Files.readAllBytes(tempFile), os.toByteArray())
         }

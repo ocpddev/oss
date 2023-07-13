@@ -38,9 +38,9 @@ interface FileStore {
      * Upload a file to the file store.
      *
      * @param key The key of the file to be uploaded.
-     * @param is  The input stream of the file to be uploaded, which will not be closed.
+     * @param ins  The input stream of the file to be uploaded, which will not be closed.
      */
-    fun upload(key: String, `is`: InputStream)
+    fun upload(key: String, ins: InputStream)
 
     /**
      * Download a file from the file store.

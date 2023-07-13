@@ -74,9 +74,9 @@ class AwsS3FileStore(
         log.debug("Uploaded file to S3: ${content.size} bytes -> $key")
     }
 
-    override fun upload(key: String, `is`: InputStream) {
+    override fun upload(key: String, ins: InputStream) {
         try {
-            val contents = `is`.readAllBytes()
+            val contents = ins.readAllBytes()
             client.putObject(
                 PutObjectRequest.builder().bucket(bucket).key(key).build(), RequestBody.fromBytes(contents)
             )
