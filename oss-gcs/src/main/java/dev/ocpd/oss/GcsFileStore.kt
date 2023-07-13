@@ -26,7 +26,7 @@ class GcsFileStore(
     override fun list(prefix: String?): Stream<String> {
         val bucket = storage[bucket]
         val blobs = if (prefix != null) bucket.list(Storage.BlobListOption.prefix(prefix)) else bucket.list()
-        return StreamSupport.stream(blobs.iterateAll().spliterator(), false).map(Blob::getName)
+        return StreamSupport.stream(blobs.iterateAll().spliterator(), false).map(Blob::name)
     }
 
     override fun upload(key: String, path: Path) {
@@ -34,7 +34,7 @@ class GcsFileStore(
             val blobInfo = BlobInfo.newBuilder(bucket, key).build()
             storage.create(blobInfo, Files.readAllBytes(path))
 
-            log.debug("Uploaded file: $path with key: $key")
+            log.debug("Uploaded file: {} with key: {}", path, key)
         } catch (e: IOException) {
             throw UncheckedIOException("Error uploading file from file: $path", e)
         }
@@ -44,7 +44,7 @@ class GcsFileStore(
         val blobInfo = BlobInfo.newBuilder(bucket, key).build()
         storage.create(blobInfo, content)
 
-        log.debug("Uploaded file with key: $key")
+        log.debug("Uploaded file with key: {}", key)
     }
 
     override fun upload(key: String, ins: InputStream) {
@@ -53,7 +53,7 @@ class GcsFileStore(
             val fileContent = ByteStreams.toByteArray(ins)
             storage.create(blobInfo, fileContent)
 
-            log.debug("Upload file from input stream with key: $key")
+            log.debug("Upload file from input stream with key: {}", key)
         } catch (e: IOException) {
             throw UncheckedIOException("Error uploading file from input stream", e)
         }
@@ -62,7 +62,7 @@ class GcsFileStore(
     override fun downloadAsBytes(key: String): ByteArray {
         val fileContent = storage.readAllBytes(bucket, key)
 
-        log.debug("Downloaded file with key: $key")
+        log.debug("Downloaded file with key: {}", key)
         return fileContent
     }
 
@@ -71,7 +71,7 @@ class GcsFileStore(
         if (blob != null) {
             blob.downloadTo(outputStream)
 
-            log.debug("Downloaded file with key: $key to output stream")
+            log.debug("Downloaded file with key: {} to output stream", key)
         } else {
             throw IllegalArgumentException("File does not exist: $key")
         }
@@ -79,7 +79,7 @@ class GcsFileStore(
 
     override fun delete(key: String) {
         if (!storage.delete(bucket, key)) {
-            log.warn("File does not exist: $key")
+            log.warn("File does not exist: {}", key)
         }
     }
 
