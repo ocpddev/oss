@@ -26,7 +26,7 @@ class GcsFileStore(
     override fun list(prefix: String?): Stream<String> {
         val bucket = storage[bucket]
         val blobs = if (prefix != null) bucket.list(Storage.BlobListOption.prefix(prefix)) else bucket.list()
-        return StreamSupport.stream(blobs.iterateAll().spliterator(), false).map(Blob::name)
+        return StreamSupport.stream(blobs.iterateAll().spliterator(), false).map(Blob::getName)
     }
 
     override fun upload(key: String, path: Path) {
