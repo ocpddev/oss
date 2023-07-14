@@ -2,7 +2,7 @@ package dev.ocpd.oss.config
 
 import dev.ocpd.oss.AwsS3FileStore
 import dev.ocpd.oss.FileStore
-import org.slf4j.LoggerFactory
+import dev.ocpd.slf4k.slf4j
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
@@ -23,7 +23,7 @@ import software.amazon.awssdk.services.s3.presigner.S3Presigner
 class AwsS3FileStoreAutoConfiguration(
     private val awsS3Properties: AwsS3Properties
 ) {
-    private val log = LoggerFactory.getLogger(AwsS3FileStoreAutoConfiguration::class.java)
+    private val log by slf4j
     private val awsCredentialsProvider: AwsCredentialsProvider = createCredentialsProvider()
 
     private fun createCredentialsProvider(): AwsCredentialsProvider {

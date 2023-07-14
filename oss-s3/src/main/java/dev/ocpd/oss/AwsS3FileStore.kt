@@ -1,7 +1,8 @@
 package dev.ocpd.oss
 
+import dev.ocpd.slf4k.debug
+import dev.ocpd.slf4k.slf4j
 import org.jetbrains.annotations.NotNull
-import org.slf4j.LoggerFactory
 import software.amazon.awssdk.core.sync.RequestBody
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.*
@@ -22,7 +23,7 @@ class AwsS3FileStore(
     private val bucket: String
 ) : FileStore {
 
-    private val log = LoggerFactory.getLogger(AwsS3FileStore::class.java)
+    private val log by slf4j
 
     init {
         createBucketIfNotExists()
@@ -65,13 +66,13 @@ class AwsS3FileStore(
     override fun upload(key: String, path: Path) {
         client.putObject(PutObjectRequest.builder().bucket(bucket).key(key).build(), path)
 
-        log.debug("Uploaded file to S3: {} -> {}", path, key)
+        log.debug { "Uploaded file to S3: $path -> $key" }
     }
 
     override fun upload(key: String, content: ByteArray) {
         client.putObject(PutObjectRequest.builder().bucket(bucket).key(key).build(), RequestBody.fromBytes(content))
 
-        log.debug("Uploaded file to S3: {} bytes -> {}", content.size, key)
+        log.debug { "Uploaded file to S3: ${content.size} bytes -> $key" }
     }
 
     override fun upload(key: String, ins: InputStream) {
@@ -81,7 +82,7 @@ class AwsS3FileStore(
                 PutObjectRequest.builder().bucket(bucket).key(key).build(), RequestBody.fromBytes(contents)
             )
 
-            log.debug("Uploaded file from InputStream to S3: {}", key)
+            log.debug { "Uploaded file from InputStream to S3: $key" }
         } catch (e: IOException) {
             throw UncheckedIOException("Error reading input stream", e)
         }
@@ -91,7 +92,7 @@ class AwsS3FileStore(
         val objectBytes = client.getObjectAsBytes { it.bucket(bucket).key(key) }
         val bytes = objectBytes.asByteArray()
 
-        log.debug("Downloaded file from S3: {} -> {} bytes", key, bytes.size)
+        log.debug { "Downloaded file from S3: $key -> ${bytes.size} bytes" }
         return bytes
     }
 
@@ -99,7 +100,7 @@ class AwsS3FileStore(
         client.getObject { it.bucket(bucket).key(key) }.use {
             it.transferTo(outputStream)
         }
-        log.debug("Downloaded file from S3 to output stream: {}", key)
+        log.debug { "Downloaded file from S3 to output stream: $key" }
     }
 
     override fun delete(key: String) {
