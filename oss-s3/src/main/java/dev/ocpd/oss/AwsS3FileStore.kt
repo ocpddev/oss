@@ -7,10 +7,8 @@ import software.amazon.awssdk.core.sync.RequestBody
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.*
 import software.amazon.awssdk.services.s3.presigner.S3Presigner
-import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
-import java.io.UncheckedIOException
 import java.net.URL
 import java.nio.file.Path
 import java.time.Duration
@@ -76,16 +74,12 @@ class AwsS3FileStore(
     }
 
     override fun upload(key: String, ins: InputStream) {
-        try {
-            val contents = ins.readAllBytes()
-            client.putObject(
-                PutObjectRequest.builder().bucket(bucket).key(key).build(), RequestBody.fromBytes(contents)
-            )
+        val contents = ins.readAllBytes()
+        client.putObject(
+            PutObjectRequest.builder().bucket(bucket).key(key).build(), RequestBody.fromBytes(contents)
+        )
 
-            log.debug { "Uploaded file from InputStream to S3: $key" }
-        } catch (e: IOException) {
-            throw UncheckedIOException("Error reading input stream", e)
-        }
+        log.debug { "Uploaded file from InputStream to S3: $key" }
     }
 
     override fun downloadAsBytes(key: String): ByteArray {

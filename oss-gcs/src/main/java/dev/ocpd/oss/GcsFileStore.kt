@@ -7,10 +7,8 @@ import com.google.common.io.ByteStreams
 import dev.ocpd.slf4k.debug
 import dev.ocpd.slf4k.slf4j
 import dev.ocpd.slf4k.warn
-import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
-import java.io.UncheckedIOException
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Path
@@ -32,14 +30,10 @@ class GcsFileStore(
     }
 
     override fun upload(key: String, path: Path) {
-        try {
-            val blobInfo = BlobInfo.newBuilder(bucket, key).build()
-            storage.create(blobInfo, Files.readAllBytes(path))
+        val blobInfo = BlobInfo.newBuilder(bucket, key).build()
+        storage.create(blobInfo, Files.readAllBytes(path))
 
-            log.debug { "Uploaded file: $path with key: $key" }
-        } catch (e: IOException) {
-            throw UncheckedIOException("Error uploading file from file: $path", e)
-        }
+        log.debug { "Uploaded file: $path with key: $key" }
     }
 
     override fun upload(key: String, content: ByteArray) {
@@ -51,14 +45,10 @@ class GcsFileStore(
 
     override fun upload(key: String, ins: InputStream) {
         val blobInfo = BlobInfo.newBuilder(bucket, key).build()
-        try {
-            val fileContent = ByteStreams.toByteArray(ins)
-            storage.create(blobInfo, fileContent)
+        val fileContent = ByteStreams.toByteArray(ins)
+        storage.create(blobInfo, fileContent)
 
-            log.debug { "Upload file from input stream with key: $key" }
-        } catch (e: IOException) {
-            throw UncheckedIOException("Error uploading file from input stream", e)
-        }
+        log.debug { "Upload file from input stream with key: $key" }
     }
 
     override fun downloadAsBytes(key: String): ByteArray {
