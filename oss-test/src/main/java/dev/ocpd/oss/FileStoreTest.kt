@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.net.MalformedURLException
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
@@ -16,11 +15,7 @@ abstract class FileStoreTest {
     companion object {
         private const val TEST_FILE_KEY_PREFIX = "oss-test-images"
         private const val TEST_FILE_KEY = "$TEST_FILE_KEY_PREFIX/binglogo.png"
-        private val TEST_FILE_URL: URL = try {
-            URL("https://www.bing.com/msasignin/cobranding/logo")
-        } catch (e: MalformedURLException) {
-            throw IllegalArgumentException("Invalid test file URL", e)
-        }
+        private val TEST_FILE_URL: URL = URL("https://www.bing.com/msasignin/cobranding/logo")
     }
 
     @Autowired
