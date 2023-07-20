@@ -59,14 +59,10 @@ class GcsFileStore(
     }
 
     override fun downloadTo(key: String, outputStream: OutputStream) {
-        val blob = storage[bucket, key]
-        if (blob != null) {
-            blob.downloadTo(outputStream)
+        val blob = storage[bucket, key] ?: throw IllegalArgumentException("File does not exist: $key")
+        blob.downloadTo(outputStream)
 
-            log.debug { "Downloaded file with key: $key to output stream" }
-        } else {
-            throw IllegalArgumentException("File does not exist: $key")
-        }
+        log.debug { "Downloaded file with key: $key to output stream" }
     }
 
     override fun delete(key: String) {
