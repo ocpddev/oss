@@ -16,7 +16,7 @@ dependencies {
     api("org.springframework.boot:spring-boot-starter")
 
     // Spring Cloud GCP
-    implementation("com.google.cloud:spring-cloud-gcp-starter-storage")
+    api("com.google.cloud:spring-cloud-gcp-starter-storage")
 
     testImplementation(project(":oss-test"))
     testImplementation(libs.testcontainers)

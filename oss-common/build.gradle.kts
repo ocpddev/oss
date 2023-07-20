@@ -4,6 +4,6 @@ plugins {
 }
 
 dependencies {
-    implementation("org.springframework:spring-context")
-    implementation("org.springframework.boot:spring-boot-autoconfigure")
+    api("org.springframework:spring-context")
+    api("org.springframework.boot:spring-boot-autoconfigure")
 }

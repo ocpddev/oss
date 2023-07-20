@@ -1,8 +1,8 @@
 # File Store Project
 
 The OSS project is a versatile solution for interacting with multiple cloud storage providers such as Google Cloud
-Storage, Local File System, and those providers that support the AWS S3 protocol. It simplifies and unifies file
-management across various providers, making it easier to store, retrieve, and manage your files.
+Storage and those providers that support the AWS S3 protocol. It simplifies and unifies file management across various
+providers, making it easier to store, retrieve, and manage your files.
 
 ## Modules
 
@@ -11,7 +11,6 @@ This project includes the following modules:
 - `oss-common`: The core module that provides the base interfaces and classes for the storage provider implementations.
 - `oss-gcs`: The Google Cloud Storage provider implementation and its Spring Boot starter.
 - `oss-s3`: The AWS S3 protocol implementation and its Spring Boot starter.
-- `oss-local`: A local file system storage provider implementation and its Spring Boot starter.
 - `oss-test`: The test module that provides base classes for testing the storage provider implementations.
 
 ## Integration
@@ -23,7 +22,7 @@ For AWS S3:
 
 ```kotlin
 dependencies {
-    implementation(":oss-s3")
+    implementation("dev.ocpd.oss:oss-s3:$version")
 }
 ```
 
@@ -31,15 +30,7 @@ For Google Cloud Storage:
 
 ```kotlin
 dependencies {
-    implementation(":oss-gcs")
-}
-```
-
-For local file system:
-
-```kotlin
-dependencies {
-    implementation(":oss-local")
+    implementation("dev.ocpd.oss:oss-gcs:$version")
 }
 ```
 
@@ -79,15 +70,6 @@ spring:
         enabled: true
       credentials:
         location: <your-credentials-location>
-```
-
-For local file system:
-
-```yaml
-oss:
-  provider: local
-  local:
-    root-path: <your-root-path>
 ```
 
 ### Usage

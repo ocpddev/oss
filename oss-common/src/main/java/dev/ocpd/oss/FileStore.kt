@@ -1,15 +1,12 @@
-package dev.ocpd.oss;
+package dev.ocpd.oss
 
-import org.springframework.lang.Nullable;
+import java.io.InputStream
+import java.io.OutputStream
+import java.net.URL
+import java.nio.file.Path
+import java.util.stream.Stream
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.nio.file.Path;
-import java.util.stream.Stream;
-
-public interface FileStore {
-
+interface FileStore {
 
     /**
      * List all files in the file store.
@@ -19,8 +16,7 @@ public interface FileStore {
      * @param prefix The prefix of the file keys to be listed.
      * @return A stream of file keys.
      */
-    Stream<String> list(@Nullable String prefix);
-
+    fun list(prefix: String?): Stream<String>
 
     /**
      * Upload a file to the file store.
@@ -28,7 +24,7 @@ public interface FileStore {
      * @param key  The key of the file to be uploaded.
      * @param path The path of the file to be uploaded.
      */
-    void upload(String key, Path path);
+    fun upload(key: String, path: Path)
 
     /**
      * Upload a file to the file store.
@@ -36,15 +32,15 @@ public interface FileStore {
      * @param key     The key of the file to be uploaded.
      * @param content The content of the file to be uploaded.
      */
-    void upload(String key, byte[] content);
+    fun upload(key: String, content: ByteArray)
 
     /**
      * Upload a file to the file store.
      *
      * @param key The key of the file to be uploaded.
-     * @param is  The input stream of the file to be uploaded, which will not be closed.
+     * @param ins  The input stream of the file to be uploaded, which will not be closed.
      */
-    void upload(String key, InputStream is);
+    fun upload(key: String, ins: InputStream)
 
     /**
      * Download a file from the file store.
@@ -52,7 +48,7 @@ public interface FileStore {
      * @param key The key of the file to be downloaded.
      * @return The content of the file.
      */
-    byte[] downloadAsBytes(String key);
+    fun downloadAsBytes(key: String): ByteArray
 
     /**
      * Download a file from the file store.
@@ -60,14 +56,14 @@ public interface FileStore {
      * @param key          The key of the file to be downloaded.
      * @param outputStream The output stream to write the file content.
      */
-    void downloadTo(String key, OutputStream outputStream);
+    fun downloadTo(key: String, outputStream: OutputStream)
 
     /**
      * Delete a file from the file store.
      *
      * @param key The key of the file to be deleted.
      */
-    void delete(String key);
+    fun delete(key: String)
 
     /**
      * Check if a file exists in the file store.
@@ -75,7 +71,7 @@ public interface FileStore {
      * @param key The key of the file to be checked.
      * @return True if the file exists, false otherwise.
      */
-    boolean exists(String key);
+    fun exists(key: String): Boolean
 
     /**
      * Generate the signed url for downloading a file.
@@ -85,7 +81,7 @@ public interface FileStore {
      * @param expirySeconds The seconds before the url expires.
      * @return The signed url.
      */
-    URL generateDownloadUrl(String key, long expirySeconds);
+    fun generateDownloadUrl(key: String, expirySeconds: Long): URL
 
     /**
      * Generate the signed url for downloading a file. The url will be expired after 10 minutes.
@@ -93,7 +89,7 @@ public interface FileStore {
      * @param key The key of the file.
      * @return The signed url.
      */
-    default URL generateDownloadUrl(String key) {
-        return generateDownloadUrl(key, 600);
+    fun generateDownloadUrl(key: String): URL {
+        return generateDownloadUrl(key, 600)
     }
 }
