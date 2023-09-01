@@ -11,6 +11,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.s3.S3Client
@@ -27,12 +28,15 @@ class AwsS3FileStoreAutoConfiguration(
     private val awsCredentialsProvider: AwsCredentialsProvider = createCredentialsProvider()
 
     private fun createCredentialsProvider(): AwsCredentialsProvider {
-        return StaticCredentialsProvider.create(
-            AwsBasicCredentials.create(
-                awsS3Properties.accessKey,
-                awsS3Properties.secretKey
-            )
-        )
+        val accessKey = awsS3Properties.accessKey
+        val secretKey = awsS3Properties.secretKey
+
+        // Use DefaultCredentialsProvider if no access key and secret key are provided
+        if (accessKey == null || secretKey == null) {
+            return DefaultCredentialsProvider.create()
+        }
+
+        return StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, secretKey))
     }
 
     private fun buildS3Client(): S3Client {

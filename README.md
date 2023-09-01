@@ -43,6 +43,7 @@ For AWS S3:
 oss:
   provider: s3
   s3:
+    # If the access-key and secret-key is not set, the default credential provider will be used
     access-key: <your-access-key>
     secret-key: <your-secret-key>
     region: <your-region>
