@@ -2,15 +2,15 @@ package dev.ocpd.oss
 
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
-abstract class FileStoreTest {
+interface FileStoreContract<T : FileStore> {
 
     companion object {
         private const val TEST_FILE_KEY_PREFIX = "oss-test-images"
@@ -18,8 +18,7 @@ abstract class FileStoreTest {
         private val TEST_FILE_URL: URL = URL("https://www.bing.com/msasignin/cobranding/logo")
     }
 
-    @Autowired
-    private lateinit var fileStore: FileStore
+    val fileStore: T
 
     @AfterEach
     fun clear() {
@@ -27,7 +26,8 @@ abstract class FileStoreTest {
     }
 
     @Test
-    fun givenFile_whenUploadFileByPathAndList_thenSuccess() {
+    @DisplayName("file should appear in listing after upload")
+    fun list() {
         val tempFile = Files.createTempFile("binglogo", ".png")
 
         TEST_FILE_URL.openStream().use {
@@ -44,7 +44,8 @@ abstract class FileStoreTest {
     }
 
     @Test
-    fun givenFile_whenUploadFileAndDownloadToOutputStream_thenSuccess() {
+    @DisplayName("download to stream")
+    fun downloadTo() {
         val tempFile = Files.createTempFile("binglogo", ".png")
 
         TEST_FILE_URL.openStream().use {
@@ -63,7 +64,8 @@ abstract class FileStoreTest {
     }
 
     @Test
-    fun givenFileUrl_whenUploadFileByUrlAndDownloadToBytes_thenSuccess() {
+    @DisplayName("download as bytes")
+    fun downloadAsBytes() {
         TEST_FILE_URL.openStream().use {
             val bytes = it.readAllBytes()
             fileStore.upload(TEST_FILE_KEY, ByteArrayInputStream(bytes))
@@ -74,7 +76,8 @@ abstract class FileStoreTest {
     }
 
     @Test
-    fun givenFileContent_whenUploadFileByContentAndDownloadToBytes_thenSuccess() {
+    @DisplayName("upload from bytes")
+    fun uploadFromBytes() {
         val message = "Hello World"
         val fileKey = "txt/test.txt"
         fileStore.upload(fileKey, message.toByteArray())
@@ -84,7 +87,8 @@ abstract class FileStoreTest {
     }
 
     @Test
-    fun givenFileContent_whenUploadAndDelete_thenSuccess() {
+    @DisplayName("file should not appear in listing after deletion")
+    fun delete() {
         val message = "Hello World"
         val fileKey = "txt/test.txt"
         fileStore.upload(fileKey, message.toByteArray())
@@ -94,7 +98,8 @@ abstract class FileStoreTest {
     }
 
     @Test
-    fun givenFileContent_whenUploadAndCheckFileExist_thenTrue() {
+    @DisplayName("file should exist after upload")
+    fun exists() {
         TEST_FILE_URL.openStream().use {
             val fileContent = it.readAllBytes()
             fileStore.upload(TEST_FILE_KEY, fileContent)
@@ -105,7 +110,8 @@ abstract class FileStoreTest {
     }
 
     @Test
-    open fun givenFile_whenUploadAndAccessSignedUrl_thenSuccess() {
+    @DisplayName("should be able to download via signed url")
+    fun generateDownloadUrl() {
         val tempFile = Files.createTempFile("binglogo", ".png")
 
         TEST_FILE_URL.openStream().use {

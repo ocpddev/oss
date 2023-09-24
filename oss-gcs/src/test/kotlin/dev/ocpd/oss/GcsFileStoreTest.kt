@@ -11,9 +11,11 @@ import org.springframework.test.context.ContextConfiguration
     properties = ["oss.provider=gcs"]
 )
 @ContextConfiguration(initializers = [GcsTestContainerInitializer::class])
-class GcsFileStoreTest : FileStoreTest() {
+class GcsFileStoreTest(
+    override val fileStore: GcsFileStore
+) : FileStoreContract<GcsFileStore> {
 
-    override fun givenFile_whenUploadAndAccessSignedUrl_thenSuccess() {
+    override fun generateDownloadUrl() {
         //Disable this test because it is not supported by fake-gcs-server
     }
 }

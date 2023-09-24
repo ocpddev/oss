@@ -7,10 +7,10 @@ dependencies {
     implementation(libs.slf4k)
 
     api(project(":oss-common"))
-    implementation(libs.aws.sdk.s3)
-
     api("org.springframework.boot:spring-boot-starter")
 
-    testImplementation(project(":oss-test"))
+    implementation(libs.aws.sdk.s3)
+
+    testImplementation(testFixtures(project(":oss-common")))
     testImplementation(libs.localstack.utils)
 }

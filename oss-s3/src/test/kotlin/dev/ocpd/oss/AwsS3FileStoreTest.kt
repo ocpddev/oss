@@ -11,17 +11,21 @@ import org.springframework.test.context.ContextConfiguration
 
 @SpringBootTest(classes = [AwsS3FileStoreAutoConfiguration::class])
 @ContextConfiguration(initializers = [AwsPropertiesEnvInitializer::class])
-object AwsS3FileStoreTest : FileStoreTest() {
+class AwsS3FileStoreTest(
+    override val fileStore: AwsS3FileStore
+) : FileStoreContract<AwsS3FileStore> {
 
-    @JvmStatic
-    @BeforeAll
-    fun setUp() {
-        Localstack.INSTANCE.startup(LocalstackDockerConfiguration.DEFAULT)
-    }
+    companion object {
+        @JvmStatic
+        @BeforeAll
+        fun setUp() {
+            Localstack.INSTANCE.startup(LocalstackDockerConfiguration.DEFAULT)
+        }
 
-    @JvmStatic
-    @AfterAll
-    fun teardown() {
-        Localstack.INSTANCE.stop()
+        @JvmStatic
+        @AfterAll
+        fun teardown() {
+            Localstack.INSTANCE.stop()
+        }
     }
 }
