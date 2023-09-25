@@ -11,7 +11,6 @@ This project includes the following modules:
 - `oss-common`: The core module that provides the base interfaces and classes for the storage provider implementations.
 - `oss-gcs`: The Google Cloud Storage provider implementation and its Spring Boot starter.
 - `oss-s3`: The AWS S3 protocol implementation and its Spring Boot starter.
-- `oss-test`: The test module that provides base classes for testing the storage provider implementations.
 
 ## Integration
 
