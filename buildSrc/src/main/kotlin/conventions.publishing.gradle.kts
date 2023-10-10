@@ -23,23 +23,23 @@ publishing {
         create<MavenPublication>("maven") {
             from(components["java"])
             pom {
-                name.set(project.name)
-                description.set("Object Storage Service")
-                url.set("https://github.com/ocpddev/oss")
+                name = project.name
+                description = "Object Storage Service"
+                url = "https://github.com/ocpddev/oss"
                 licenses {
                     license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                        name = "The Apache License, Version 2.0"
+                        url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
                     }
                 }
                 scm {
-                    url.set("https://github.com/ocpddev/oss")
+                    url = "https://github.com/ocpddev/oss"
                 }
                 developers {
                     developer {
-                        id.set("sola")
-                        name.set("Sola")
-                        email.set("sola@ocpd.dev")
+                        id = "sola"
+                        name = "Sola"
+                        email = "sola@ocpd.dev"
                     }
                 }
             }
