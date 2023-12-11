@@ -1,5 +1,5 @@
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
@@ -10,15 +10,10 @@ plugins {
     id("io.spring.dependency-management")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
+kotlin {
+    jvmToolchain(21)
+    compilerOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict", "-Xjvm-default=all")
-        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
@@ -31,7 +26,7 @@ repositories {
 }
 
 dependencyManagement {
-    imports { mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES) }
+    imports { mavenBom(SpringBootPlugin.BOM_COORDINATES) }
 }
 
 extra["kotlin.version"] = getKotlinPluginVersion()
