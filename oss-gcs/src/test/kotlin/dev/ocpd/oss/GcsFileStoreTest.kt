@@ -18,4 +18,8 @@ class GcsFileStoreTest(
     override fun generateDownloadUrl() {
         //Disable this test because it is not supported by fake-gcs-server
     }
+
+    override fun generateUploadUrl() {
+        //Disable this test because it is not supported by fake-gcs-server
+    }
 }

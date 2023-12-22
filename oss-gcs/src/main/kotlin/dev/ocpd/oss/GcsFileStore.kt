@@ -2,6 +2,7 @@ package dev.ocpd.oss
 
 import com.google.cloud.storage.Blob
 import com.google.cloud.storage.BlobInfo
+import com.google.cloud.storage.HttpMethod
 import com.google.cloud.storage.Storage
 import com.google.common.io.ByteStreams
 import dev.ocpd.slf4k.debug
@@ -75,6 +76,22 @@ class GcsFileStore(
         return storage[bucket, key] != null
     }
 
+    override fun mv(source: String, dest: String): Boolean {
+        val sourceBlob = storage[bucket, source] ?: return false
+        sourceBlob.copyTo(bucket, dest)
+        sourceBlob.delete()
+
+        return exists(dest)
+    }
+
+    /**
+     * @return The size of the file in bytes.
+     */
+    override fun sizeOf(key: String): Long {
+        val blob = storage[bucket, key] ?: throw IllegalArgumentException("File does not exist: $key")
+        return blob.size
+    }
+
     override fun generateDownloadUrl(key: String, expirySeconds: Long): URL {
         val blobInfo = BlobInfo.newBuilder(bucket, key).build()
 
@@ -82,6 +99,18 @@ class GcsFileStore(
             blobInfo,
             expirySeconds,
             TimeUnit.SECONDS,
+            Storage.SignUrlOption.withV4Signature()
+        )
+    }
+
+    override fun generateUploadUrl(key: String, expirySeconds: Long): URL {
+        val blobInfo = BlobInfo.newBuilder(bucket, key).build()
+
+        return storage.signUrl(
+            blobInfo,
+            expirySeconds,
+            TimeUnit.SECONDS,
+            Storage.SignUrlOption.httpMethod(HttpMethod.PUT),
             Storage.SignUrlOption.withV4Signature()
         )
     }
