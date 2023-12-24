@@ -80,7 +80,7 @@ interface FileStore {
      * @param dest   The key of the file to be moved to.
      * @return True if the file is moved successfully, false otherwise.
      */
-    fun mv(source: String, dest: String): Boolean
+    fun move(source: String, dest: String): Boolean
 
     /**
      * Get the size of a file.

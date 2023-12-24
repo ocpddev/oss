@@ -76,7 +76,7 @@ class GcsFileStore(
         return storage[bucket, key] != null
     }
 
-    override fun mv(source: String, dest: String): Boolean {
+    override fun move(source: String, dest: String): Boolean {
         val sourceBlob = storage[bucket, source] ?: return false
         sourceBlob.copyTo(bucket, dest)
         sourceBlob.delete()

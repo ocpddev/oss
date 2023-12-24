@@ -110,7 +110,7 @@ class AwsS3FileStore(
         }
     }
 
-    override fun mv(source: String, dest: String): Boolean {
+    override fun move(source: String, dest: String): Boolean {
         return try {
             client.copyObject { it.sourceBucket(bucket).sourceKey(source).destinationBucket(bucket).destinationKey(dest) }
             client.deleteObject { it.bucket(bucket).key(source) }

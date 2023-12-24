@@ -123,7 +123,7 @@ interface FileStoreContract<T : FileStore> {
             Files.copy(it, tempFile, StandardCopyOption.REPLACE_EXISTING)
             fileStore.upload(TEST_FILE_KEY, tempFile)
             val newKey = "$TEST_FILE_KEY_PREFIX/binglogo2.png"
-            fileStore.mv(TEST_FILE_KEY, newKey)
+            fileStore.move(TEST_FILE_KEY, newKey)
             val fileExist = fileStore.exists(newKey)
             assertTrue(fileExist)
         }
