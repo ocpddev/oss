@@ -110,11 +110,38 @@ class AwsS3FileStore(
         }
     }
 
+    override fun move(source: String, dest: String): Boolean {
+        return try {
+            client.copyObject { it.sourceBucket(bucket).sourceKey(source).destinationBucket(bucket).destinationKey(dest) }
+            client.deleteObject { it.bucket(bucket).key(source) }
+            true
+        } catch (e: NoSuchKeyException) {
+            false
+        }
+    }
+
+    /**
+     * @return The size of the file in bytes.
+     */
+    override fun sizeOf(key: String): Long {
+        return client.headObject { it.bucket(bucket).key(key) }.contentLength()
+    }
+
     override fun generateDownloadUrl(key: String, expirySeconds: Long): URL {
         val presignedGetRequest = s3Presigner.presignGetObject {
             it.getObjectRequest { innerBuilder -> innerBuilder.bucket(bucket).key(key) }
                 .signatureDuration(Duration.ofSeconds(expirySeconds))
         }
         return presignedGetRequest.url()
+    }
+
+    override fun generateUploadUrl(key: String, expirySeconds: Long): URL {
+        val presignedPutRequest = s3Presigner.presignPutObject {
+            it.putObjectRequest { innerBuilder ->
+                innerBuilder.bucket(bucket).key(key)
+            }.signatureDuration(Duration.ofSeconds(expirySeconds))
+        }
+        return presignedPutRequest.url()
+
     }
 }

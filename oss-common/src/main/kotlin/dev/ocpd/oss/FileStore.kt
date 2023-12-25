@@ -74,6 +74,23 @@ interface FileStore {
     fun exists(key: String): Boolean
 
     /**
+     * Move a file from one key to another.
+     *
+     * @param source The key of the file to be moved.
+     * @param dest   The key of the file to be moved to.
+     * @return True if the file is moved successfully, false otherwise.
+     */
+    fun move(source: String, dest: String): Boolean
+
+    /**
+     * Get the size of a file.
+     *
+     * @param key The key of the file.
+     * @return The size of the file.
+     */
+    fun sizeOf(key: String): Long
+
+    /**
      * Generate the signed url for downloading a file.
      * Note: The url can only be used to download the file, not for uploading or other operations. The url will be expired after the specified seconds.
      *
@@ -91,5 +108,25 @@ interface FileStore {
      */
     fun generateDownloadUrl(key: String): URL {
         return generateDownloadUrl(key, 600)
+    }
+
+    /**
+     * Generate the signed url for uploading a file.
+     * Note: The url can only be used to uploading the file, not for download or other operations. The url will be expired after the specified seconds.
+     *
+     * @param key           The key of the file.
+     * @param expirySeconds The seconds before the url expires.
+     * @return The signed url.
+     */
+    fun generateUploadUrl(key: String, expirySeconds: Long): URL
+
+    /**
+     * Generate the signed url for uploading a file. The url will be expired after 10 minutes.
+     *
+     * @param key The key of the file.
+     * @return The signed url.
+     */
+    fun generateUploadUrl(key: String): URL {
+        return generateUploadUrl(key, 60)
     }
 }
