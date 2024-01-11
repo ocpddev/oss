@@ -126,6 +126,25 @@ interface FileStoreContract<T : FileStore> {
             fileStore.move(TEST_FILE_KEY, newKey)
             val fileExist = fileStore.exists(newKey)
             assertTrue(fileExist)
+            fileStore.delete(newKey)
+        }
+
+        Files.delete(tempFile)
+    }
+
+    @Test
+    @DisplayName("should be able to copy file")
+    fun copy() {
+        val tempFile = Files.createTempFile("binglogo", ".png")
+
+        TEST_FILE_URL.openStream().use {
+            Files.copy(it, tempFile, StandardCopyOption.REPLACE_EXISTING)
+            fileStore.upload(TEST_FILE_KEY, tempFile)
+            val newKey = "$TEST_FILE_KEY_PREFIX/binglogo2.png"
+            fileStore.copy(TEST_FILE_KEY, newKey)
+            val fileExist = fileStore.exists(newKey)
+            assertTrue(fileExist)
+            fileStore.delete(newKey)
         }
 
         Files.delete(tempFile)

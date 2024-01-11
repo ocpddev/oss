@@ -83,6 +83,15 @@ interface FileStore {
     fun move(source: String, dest: String): Boolean
 
     /**
+     * Copy a file from one key to another.
+     *
+     * @param source The key of the file to be copied.
+     * @param dest   The key of the file to be copied to.
+     * @return True if the file is copied successfully, false otherwise.
+     */
+    fun copy(source: String, dest: String): Boolean
+
+    /**
      * Get the size of a file.
      *
      * @param key The key of the file.

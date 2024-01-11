@@ -84,6 +84,13 @@ class GcsFileStore(
         return exists(dest)
     }
 
+    override fun copy(source: String, dest: String): Boolean {
+        val sourceBlob = storage[bucket, source] ?: return false
+        sourceBlob.copyTo(bucket, dest)
+
+        return exists(dest)
+    }
+
     /**
      * @return The size of the file in bytes.
      */

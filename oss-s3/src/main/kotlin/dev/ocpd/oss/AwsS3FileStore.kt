@@ -120,6 +120,15 @@ class AwsS3FileStore(
         }
     }
 
+    override fun copy(source: String, dest: String): Boolean {
+        return try {
+            client.copyObject { it.sourceBucket(bucket).sourceKey(source).destinationBucket(bucket).destinationKey(dest) }
+            true
+        } catch (e: NoSuchKeyException) {
+            false
+        }
+    }
+
     /**
      * @return The size of the file in bytes.
      */
