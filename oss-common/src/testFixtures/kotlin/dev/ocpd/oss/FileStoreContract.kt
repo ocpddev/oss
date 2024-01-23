@@ -21,6 +21,7 @@ interface FileStoreContract<T : FileStore> {
         private const val TEST_FILE_KEY_PREFIX = "oss-test-images"
         private const val TEST_FILE_KEY = "$TEST_FILE_KEY_PREFIX/binglogo.png"
         private val TEST_FILE_URL: URL = URI("https://www.bing.com/msasignin/cobranding/logo").toURL()
+        private val TEST_FILE2_URL: URL = URI("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png").toURL()
     }
 
     val fileStore: T
@@ -124,8 +125,18 @@ interface FileStoreContract<T : FileStore> {
             fileStore.upload(TEST_FILE_KEY, tempFile)
             val newKey = "$TEST_FILE_KEY_PREFIX/binglogo2.png"
             fileStore.move(TEST_FILE_KEY, newKey)
-            val fileExist = fileStore.exists(newKey)
-            assertTrue(fileExist)
+            assertTrue(fileStore.exists(newKey))
+
+            // Overwrite
+            TEST_FILE2_URL.openStream().use { ins ->
+                val bytes = ins.readAllBytes()
+                fileStore.upload(TEST_FILE_KEY, bytes)
+                fileStore.move(TEST_FILE_KEY, newKey)
+
+                assertTrue(fileStore.exists(newKey))
+                assertArrayEquals(bytes, fileStore.downloadAsBytes(newKey))
+            }
+
             fileStore.delete(newKey)
         }
 
@@ -142,8 +153,18 @@ interface FileStoreContract<T : FileStore> {
             fileStore.upload(TEST_FILE_KEY, tempFile)
             val newKey = "$TEST_FILE_KEY_PREFIX/binglogo2.png"
             fileStore.copy(TEST_FILE_KEY, newKey)
-            val fileExist = fileStore.exists(newKey)
-            assertTrue(fileExist)
+            assertTrue(fileStore.exists(newKey))
+
+            // Overwrite
+            TEST_FILE2_URL.openStream().use { ins ->
+                val bytes = ins.readAllBytes()
+                fileStore.upload(TEST_FILE_KEY, bytes)
+                fileStore.copy(TEST_FILE_KEY, newKey)
+
+                assertTrue(fileStore.exists(newKey))
+                assertArrayEquals(bytes, fileStore.downloadAsBytes(newKey))
+            }
+
             fileStore.delete(newKey)
         }
 

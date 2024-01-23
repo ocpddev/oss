@@ -75,6 +75,8 @@ interface FileStore {
 
     /**
      * Move a file from one key to another.
+     * The source file will be deleted.
+     * If the destination file exists, it will be overwritten.
      *
      * @param source The key of the file to be moved.
      * @param dest   The key of the file to be moved to.
@@ -84,6 +86,7 @@ interface FileStore {
 
     /**
      * Copy a file from one key to another.
+     * If the destination file exists, it will be overwritten.
      *
      * @param source The key of the file to be copied.
      * @param dest   The key of the file to be copied to.
