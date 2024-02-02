@@ -10,7 +10,7 @@ plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plu
 plugin-spring-dependency-management = { module = "io.spring.gradle:dependency-management-plugin", version = "1.1.4" }
 
 slf4k = { module = "dev.ocpd.slf4k:slf4k", version = "0.2.0" }
-aws-sdk-s3 = { module = "software.amazon.awssdk:s3", version = "2.23.15" }
+aws-sdk-s3 = { module = "software.amazon.awssdk:s3", version = "2.23.17" }
 localstack-utils = { module = "cloud.localstack:localstack-utils", version = "0.2.23" }
 spring-cloud-gcs = { module = "com.google.cloud:spring-cloud-gcp-starter-storage", version = "5.0.1" }
 testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
