@@ -1,6 +1,6 @@
 [versions]
 kotlin = "1.9.22"
-testcontainers = "1.19.4"
+testcontainers = "1.19.5"
 
 [libraries]
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
