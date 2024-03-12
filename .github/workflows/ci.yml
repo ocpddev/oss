@@ -20,5 +20,5 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v3
 
-      - name: Build and Publish
+      - name: Build
         run: ./gradlew build
