@@ -10,6 +10,7 @@ import software.amazon.awssdk.services.s3.presigner.S3Presigner
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.URL
+import java.nio.file.NoSuchFileException
 import java.nio.file.Path
 import java.time.Duration
 import java.util.stream.Stream
@@ -116,7 +117,16 @@ class AwsS3FileStore(
             client.deleteObject { it.bucket(bucket).key(source) }
             true
         } catch (e: NoSuchKeyException) {
-            false
+            throw NoSuchFileException("Source file does not exist: $source")
+        }
+    }
+
+    override fun copy(source: String, dest: String): Boolean {
+        return try {
+            client.copyObject { it.sourceBucket(bucket).sourceKey(source).destinationBucket(bucket).destinationKey(dest) }
+            true
+        } catch (e: NoSuchKeyException) {
+            throw NoSuchFileException("Source file does not exist: $source")
         }
     }
 
