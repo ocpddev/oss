@@ -7,7 +7,7 @@ plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 plugin-kotlin-allopen = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version = "1.9.20" }
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.2.5" }
-plugin-spring-dependency-management = { module = "io.spring.gradle:dependency-management-plugin", version = "1.1.5" }
+plugin-spring-dependency-management = { module = "io.spring.gradle:dependency-management-plugin", version = "1.1.7" }
 
 slf4k = { module = "dev.ocpd.slf4k:slf4k", version = "0.2.0" }
 aws-sdk-s3 = { module = "software.amazon.awssdk:s3", version = "2.37.5" }
