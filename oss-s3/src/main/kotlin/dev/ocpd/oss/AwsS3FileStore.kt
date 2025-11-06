@@ -52,7 +52,7 @@ class AwsS3FileStore(
             while (true) {
                 val response = client.listObjectsV2(request)
                 val objects = response.contents().iterator()
-                request = request.toBuilder().continuationToken(response.continuationToken()).build()
+                request = request.toBuilder().continuationToken(response.nextContinuationToken()).build()
                 yieldAll(objects)
                 if (!response.isTruncated) {
                     break
