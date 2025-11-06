@@ -12,6 +12,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.net.URL
 import java.nio.file.Files
+import java.nio.file.NoSuchFileException
 import java.nio.file.Path
 import java.util.concurrent.TimeUnit
 import java.util.stream.Stream
@@ -77,9 +78,16 @@ class GcsFileStore(
     }
 
     override fun move(source: String, dest: String): Boolean {
-        val sourceBlob = storage[bucket, source] ?: return false
+        val sourceBlob = storage[bucket, source] ?: throw NoSuchFileException("Source file does not exist: $source")
         sourceBlob.copyTo(bucket, dest)
         sourceBlob.delete()
+
+        return exists(dest)
+    }
+
+    override fun copy(source: String, dest: String): Boolean {
+        val sourceBlob = storage[bucket, source] ?: throw NoSuchFileException("Source file does not exist: $source")
+        sourceBlob.copyTo(bucket, dest)
 
         return exists(dest)
     }
