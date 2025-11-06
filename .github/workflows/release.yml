@@ -16,7 +16,7 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - uses: gradle/actions/setup-gradle@v3
+      - uses: gradle/actions/setup-gradle@v5
 
       - name: Build and Publish
         run: ./gradlew build publish
