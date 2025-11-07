@@ -33,8 +33,12 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         run: |
           set -e
-          echo "Triggering transfer to Central Publisher Portal..."
-          curl -sS --fail -X POST \
-            -u "${OSSRH_USERNAME}:${OSSRH_PASSWORD}" \
-            https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/dev.ocpd
-          echo "Transfer request submitted."
+          cfg="$(mktemp)"
+          chmod 600 "$cfg"
+          {
+            printf 'url = https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/dev.ocpd\n'
+            printf 'user = %s:%s\n' "$OSSRH_USERNAME" "$OSSRH_PASSWORD"
+            printf 'request = POST\n'
+          } > "$cfg"
+          curl -sS --fail -K "$cfg"
+          rm -f "$cfg"
