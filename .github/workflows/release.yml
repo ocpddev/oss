@@ -26,3 +26,19 @@ jobs:
           OCPD_SIGN_KEY: ${{ secrets.OCPD_SIGN_KEY }}
           OCPD_SIGN_KEY_ID: ${{ secrets.OCPD_SIGN_KEY_ID }}
           OCPD_SIGN_PASSPHRASE: ${{ secrets.OCPD_SIGN_PASSPHRASE }}
+
+      - name: Transfer staging repository to Central Publisher Portal
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        run: |
+          set -e
+          cfg="$(mktemp)"
+          chmod 600 "$cfg"
+          {
+            printf 'url = https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/dev.ocpd\n'
+            printf 'user = %s:%s\n' "$OSSRH_USERNAME" "$OSSRH_PASSWORD"
+            printf 'request = POST\n'
+          } > "$cfg"
+          curl -sS --fail -K "$cfg"
+          rm -f "$cfg"
